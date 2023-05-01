@@ -4,6 +4,7 @@ const bodyparser = require("body-parser");
 const cors = require("cors");
 const app = express();
 const db = require("./Utli/database");
+const bcrypt = require("bcrypt");
 
 //Module
 const User = require("./Module/user");
@@ -13,6 +14,8 @@ const Expenses = require("./Module/expenses");
 const UserRouter = require("./Route/user");
 //middleware
 app.use(cors());
+// app.use(bcrypt());
+
 app.use(bodyparser.json({ extended: false }));
 // app.use(bodyparser.urlencoded({ extended: false }));
 app.use(UserRouter);
@@ -31,7 +34,7 @@ Expenses.belongsTo(User);
 db.sync()
   // db.sync({ force: true })
   .then(() => {
-    app.listen(5000, () => {
+    app.listen(5004, () => {
       console.log("connected");
     });
   })
