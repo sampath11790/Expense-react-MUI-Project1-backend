@@ -28,8 +28,8 @@ Expenses.belongsTo(User);
 
 //server listener
 
-// db.sync()
-db.sync({ force: true })
+db.sync()
+  // db.sync({ force: true })
   .then(() => {
     app.listen(5000, () => {
       console.log("connected");
