@@ -12,6 +12,7 @@ const Expenses = require("./Module/expenses");
 
 //Router
 const UserRouter = require("./Route/user");
+const ExpenseRoute = require("./Route/Expense");
 //middleware
 app.use(cors());
 // app.use(bcrypt());
@@ -19,6 +20,7 @@ app.use(cors());
 app.use(bodyparser.json({ extended: false }));
 // app.use(bodyparser.urlencoded({ extended: false }));
 app.use(UserRouter);
+app.use(ExpenseRoute);
 app.use((req, res, next) => {
   console.log("test");
   next();
