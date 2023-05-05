@@ -4,7 +4,6 @@ const bodyparser = require("body-parser");
 const cors = require("cors");
 const app = express();
 const db = require("./Utli/database");
-const bcrypt = require("bcrypt");
 
 //Module
 const User = require("./Module/user");
@@ -15,6 +14,7 @@ const UserRouter = require("./Route/user");
 const ExpenseRoute = require("./Route/Expense");
 //middleware
 app.use(cors());
+// app.use(tokenMiddleware);
 // app.use(bcrypt());
 
 app.use(bodyparser.json({ extended: false }));

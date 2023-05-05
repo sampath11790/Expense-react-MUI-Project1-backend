@@ -1,6 +1,8 @@
 const User = require("../Module/user");
 const bcrypt = require("bcrypt");
-
+var secretKey =
+  "4f1feeca525de4cdb064656007da3edac7895a87ff0ea865693300fb8b6e8f9c";
+const jwt = require("jsonwebtoken");
 //post userdata
 exports.PostUser = (req, res, next) => {
   //   res.send("some text");
@@ -13,6 +15,7 @@ exports.PostUser = (req, res, next) => {
       console.log(err);
       const obj = {
         name: req.body.name,
+
         email: req.body.email,
         password: hash,
       };
@@ -42,7 +45,7 @@ exports.login = async (req, res, next) => {
   if (data.length > 0) {
     const isMatch = await bcrypt.compare(obj.password, data[0].password);
     if (isMatch) {
-      res.json({ message: "success" });
+      res.json({ message: "success", token: getToken(data[0].id) });
     } else {
       res.status(401).send({ error: "User not authorized" });
     }
@@ -50,3 +53,7 @@ exports.login = async (req, res, next) => {
     res.status(404).send({ error: "User not found" });
   }
 };
+
+function getToken(id) {
+  return jwt.sign({ userId: id }, secretKey);
+}
