@@ -39,6 +39,7 @@ exports.login = async (req, res, next) => {
   const obj = {
     email: req.body.email,
     password: req.body.password,
+    ispremium: false,
   };
   const data = await User.findAll({ where: { email: req.body.email } });
 
