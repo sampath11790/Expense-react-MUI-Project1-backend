@@ -2,6 +2,9 @@ const key_id = "rzp_test_A9qJ5OCERG73AY";
 const key_secret = "kBi51TKHdLIXdB0vuHlA5PMX";
 const Order = require("../Module/orders");
 const Razorpay = require("razorpay");
+const User = require("../Module/user");
+const Expenses = require("../Module/expenses");
+const sequelize = require("sequelize");
 
 exports.getPremium = (req, res, next) => {
   // console.log("req.user", req.user);
@@ -69,4 +72,32 @@ exports.postpaymentDetails = async (req, res, next) => {
   //   });
   // console.log(paymentDetails);
   // res.json({ message: "success" });
+};
+
+exports.getLeaserboard = async (req, res, next) => {
+  // res.json({ message: "data sent to client" });
+
+  try {
+    const val = await User.findAll({
+      attributes: [
+        "id",
+        "name",
+
+        [sequelize.fn("SUM", sequelize.col("expenses.amount")), "totalCost"],
+      ],
+      include: [
+        {
+          model: Expenses,
+          attributes: [],
+        },
+      ],
+      group: ["users.id"],
+      order: [["totalCost", "DESC"]],
+    });
+    console.log(val);
+    res.status(200).json(val);
+  } catch (err) {
+    // console.log(err);
+    res.status(401).json(err);
+  }
 };

@@ -46,7 +46,11 @@ exports.login = async (req, res, next) => {
   if (data.length > 0) {
     const isMatch = await bcrypt.compare(obj.password, data[0].password);
     if (isMatch) {
-      res.json({ message: "success", token: getToken(data[0].id) });
+      res.json({
+        message: "success",
+        token: getToken(data[0].id),
+        ispremium: data[0].ispremium,
+      });
     } else {
       res.status(401).send({ error: "User not authorized" });
     }
