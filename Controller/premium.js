@@ -1,5 +1,5 @@
-const key_id = "rzp_test_A9qJ5OCERG73AY";
-const key_secret = "kBi51TKHdLIXdB0vuHlA5PMX";
+const key_id = "rzp_test_tdxXyR482296b6";
+const key_secret = "zgk9djINXS3sggvpnakOMel3";
 const Order = require("../Module/orders");
 const Razorpay = require("razorpay");
 const User = require("../Module/user");
@@ -25,7 +25,7 @@ exports.getPremium = (req, res, next) => {
             res.json({ order, key_id: rzp.key_id });
           })
           .catch((err) => {
-            console.log(err);
+            // console.log(err);
             res.json(err);
           });
       } else {
@@ -74,30 +74,55 @@ exports.postpaymentDetails = async (req, res, next) => {
   // res.json({ message: "success" });
 };
 
+//by creating new column
 exports.getLeaserboard = async (req, res, next) => {
   // res.json({ message: "data sent to client" });
 
   try {
     const val = await User.findAll({
-      attributes: [
-        "id",
-        "name",
-
-        [sequelize.fn("SUM", sequelize.col("expenses.amount")), "totalCost"],
-      ],
-      include: [
-        {
-          model: Expenses,
-          attributes: [],
-        },
-      ],
-      group: ["users.id"],
+      attributes: ["id", "name", "totalcost"],
+      // include: [
+      //   {
+      //     model: Expenses,
+      //     attributes: [],
+      //   },
+      // ],
+      // group: ["users.id"],
       order: [["totalCost", "DESC"]],
     });
     console.log(val);
     res.status(200).json(val);
   } catch (err) {
     // console.log(err);
-    res.status(401).json(err);
+    // res.status(401).json(err);
   }
 };
+
+// BY joins
+// exports.getLeaserboard = async (req, res, next) => {
+//   // res.json({ message: "data sent to client" });
+
+//   try {
+//     const val = await User.findAll({
+//       attributes: [
+//         "id",
+//         "name",
+
+//         [sequelize.fn("SUM", sequelize.col("expenses.amount")), "totalCost"],
+//       ],
+//       include: [
+//         {
+//           model: Expenses,
+//           attributes: [],
+//         },
+//       ],
+//       group: ["users.id"],
+//       order: [["totalCost", "DESC"]],
+//     });
+//     console.log(val);
+//     res.status(200).json(val);
+//   } catch (err) {
+//     // console.log(err);
+//     res.status(401).json(err);
+//   }
+// };

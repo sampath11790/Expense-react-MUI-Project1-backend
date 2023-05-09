@@ -39,6 +39,7 @@ Order.belongsTo(User);
 //server listener
 
 db.sync()
+
   // db.sync({ force: true })
   .then(() => {
     app.listen(5004, () => {
