@@ -26,6 +26,7 @@ exports.getExpenses = (req, res, next) => {
       // console.log("data");
       res.json(data);
     })
+
     .catch((err) => {
       res.json(err);
       // console.log("err");
@@ -78,7 +79,7 @@ exports.deleteProduct = async (req, res, next) => {
     transaction: t,
   });
   const destroy = expense.destroy();
-  //promise all
+
   Promise.all([userresponse, destroy])
 
     // .then((data) => {
