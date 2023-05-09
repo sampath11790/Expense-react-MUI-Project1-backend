@@ -27,6 +27,8 @@ exports.getExpenses = (req, res, next) => {
       res.json(data);
     })
 
+    //test
+
     .catch((err) => {
       res.json(err);
       // console.log("err");
