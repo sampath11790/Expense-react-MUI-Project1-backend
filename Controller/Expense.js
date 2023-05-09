@@ -80,6 +80,7 @@ exports.deleteProduct = async (req, res, next) => {
   const destroy = expense.destroy();
 
   Promise.all([userresponse, destroy])
+
     // .then((data) => {
 
     //    return data.destroy(req.user,);
