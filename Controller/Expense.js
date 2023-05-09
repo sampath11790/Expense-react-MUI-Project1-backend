@@ -78,7 +78,7 @@ exports.deleteProduct = async (req, res, next) => {
     transaction: t,
   });
   const destroy = expense.destroy();
-
+  //promise all
   Promise.all([userresponse, destroy])
 
     // .then((data) => {
