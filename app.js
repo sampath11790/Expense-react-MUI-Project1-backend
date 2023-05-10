@@ -9,18 +9,22 @@ const db = require("./Utli/database");
 const User = require("./Module/user");
 const Expenses = require("./Module/expenses");
 const Order = require("./Module/orders");
+const Forgetpassword = require("./Module/orders");
 
 //Router
 const UserRouter = require("./Route/user");
 const ExpenseRoute = require("./Route/Expense");
 const PremiumRoute = require("./Route/Premium");
 const PasswordRoute = require("./Route/Password");
+const forgetpassword = require("./Module/forgetpassword");
 //middleware
 app.use(cors());
 // app.use(tokenMiddleware);
 // app.use(bcrypt());
 
 app.use(bodyparser.json({ extended: false }));
+
+app.use(bodyparser.urlencoded({ extended: true }));
 // app.use(bodyparser.urlencoded({ extended: false }));
 app.use(UserRouter);
 app.use(ExpenseRoute);
@@ -35,9 +39,14 @@ app.use((req, res, next) => {
 
 User.hasMany(Expenses);
 Expenses.belongsTo(User);
-
+//order
 User.hasMany(Order);
 Order.belongsTo(User);
+
+// forgetpassword
+User.hasMany(Forgetpassword);
+Forgetpassword.belongsTo(User);
+
 //server listener
 
 db.sync()
