@@ -2,12 +2,13 @@ const Expense = require("../Module/expenses");
 
 const sequelize = require("../Utli/database");
 const addTotalamount = (user, currentamount, transaction) => {
-  if (user.totalcost != null) {
-    const totalcost = user.totalcost + Number(currentamount);
-    return user.update({ totalcost: totalcost }, transaction);
+  if (isNaN(user.totalcost)) {
+    const totalcost = Number(currentamount);
+    console.log("totalcost", totalcost);
+    return user.update({ totalcost: totalcost });
   }
-  const totalcost = Number(currentamount);
-  return user.update({ totalcost: totalcost });
+  const totalcost = user.totalcost + Number(currentamount);
+  return user.update({ totalcost: totalcost }, transaction);
 };
 
 const reduceTotalamount = (user, currentamount = 0, transaction) => {

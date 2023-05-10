@@ -14,6 +14,7 @@ const Order = require("./Module/orders");
 const UserRouter = require("./Route/user");
 const ExpenseRoute = require("./Route/Expense");
 const PremiumRoute = require("./Route/Premium");
+const PasswordRoute = require("./Route/Password");
 //middleware
 app.use(cors());
 // app.use(tokenMiddleware);
@@ -24,6 +25,7 @@ app.use(bodyparser.json({ extended: false }));
 app.use(UserRouter);
 app.use(ExpenseRoute);
 app.use(PremiumRoute);
+app.use(PasswordRoute);
 app.use((req, res, next) => {
   console.log("test");
   next();
