@@ -17,16 +17,24 @@ const reduceTotalamount = (user, currentamount = 0, transaction) => {
   return user.update({ totalcost: totalcost }, transaction);
 };
 
-exports.getExpenses = (req, res, next) => {
+exports.getExpenses = async (req, res, next) => {
   // console.log(req.user.getExpenses);
 
   // console.log(req.user.getExpenses());
   // Product.findAll()
+  const page = req.query.page || 1;
+  // console.log("req.query.page", req.query.page);
+  const count = await req.user.countExpenses();
+
   req.user
-    .getExpenses()
+    .getExpenses({
+      offset: (page - 1) * 4,
+      limit: 4,
+    })
     .then((data) => {
       // console.log("data");
-      res.json(data);
+      console.log(data);
+      res.json({ data, page: Math.ceil(count / 4) });
     })
 
     //test
