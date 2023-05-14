@@ -1,4 +1,6 @@
 //import modules
+const dotenv = require("dotenv");
+dotenv.config({ path: "./config.env" });
 const express = require("express");
 const bodyparser = require("body-parser");
 const cors = require("cors");
@@ -10,6 +12,7 @@ const User = require("./Module/user");
 const Expenses = require("./Module/expenses");
 const Order = require("./Module/orders");
 const Forgetpassword = require("./Module/orders");
+const BucketDate = require("./Module/BucketData");
 
 //Router
 const UserRouter = require("./Route/user");
@@ -31,6 +34,7 @@ app.use(ExpenseRoute);
 app.use(PremiumRoute);
 app.use(PasswordRoute);
 app.use((req, res, next) => {
+  // console.log(process.env);
   console.log("test");
   next();
 });
@@ -47,6 +51,9 @@ Order.belongsTo(User);
 User.hasMany(Forgetpassword);
 Forgetpassword.belongsTo(User);
 
+//bucket
+User.hasMany(BucketDate);
+BucketDate.belongsTo(User);
 //server listener
 
 db.sync()

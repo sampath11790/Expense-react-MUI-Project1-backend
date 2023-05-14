@@ -3,6 +3,7 @@ const Expense = require("../Controller/Expense");
 const tokenMiddleware = require("../Middleware/tokenValidation");
 const router = express.Router();
 // router.use(tokenMiddleware);
+router.get("/expense/download", tokenMiddleware, Expense.getDownloadExpenses);
 router.get("/expense", tokenMiddleware, Expense.getExpenses);
 router.post("/post-product", tokenMiddleware, Expense.postProduct);
 router.delete(

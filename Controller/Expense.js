@@ -1,6 +1,7 @@
 const Expense = require("../Module/expenses");
-
+const StoreFileAWS = require("../service/awshandleing");
 const sequelize = require("../Utli/database");
+const UpdateBucketDate = require("../service/bucketdata");
 const addTotalamount = (user, currentamount, transaction) => {
   if (isNaN(user.totalcost)) {
     const totalcost = Number(currentamount);
@@ -78,10 +79,10 @@ exports.deleteProduct = async (req, res, next) => {
     },
     transaction: t,
   });
-  const userresponse = reduceTotalamount(req.user, expense.amount, {
+  const userresponse = await reduceTotalamount(req.user, expense.amount, {
     transaction: t,
   });
-  const destroy = expense.destroy();
+  const destroy = await expense.destroy();
 
   Promise.all([userresponse, destroy])
 
@@ -103,4 +104,18 @@ exports.deleteProduct = async (req, res, next) => {
 
   // console.log(req);
   console.log("controller");
+};
+
+exports.getDownloadExpenses = async (req, res, next) => {
+  try {
+    const expenses = await req.user.getExpenses();
+    const stringifydata = JSON.stringify(expenses);
+    const data = await StoreFileAWS(stringifydata, req.user.id);
+
+    const bucket = await UpdateBucketDate(req.user, data.Location);
+
+    res.status(200).json({ message: "successfull", bucket });
+  } catch (err) {
+    res.status(400).json({ error: "failed", data: err });
+  }
 };
