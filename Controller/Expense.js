@@ -22,19 +22,21 @@ exports.getExpenses = async (req, res, next) => {
 
   // console.log(req.user.getExpenses());
   // Product.findAll()
+  const pageCount = Number(req.query.pageCount) || 2;
   const page = req.query.page || 1;
-  // console.log("req.query.page", req.query.page);
+  console.log("req.query.pageCount", req.query.pageCount);
+  console.log("req.query.page", req.query.page);
   const count = await req.user.countExpenses();
 
   req.user
     .getExpenses({
-      offset: (page - 1) * 4,
-      limit: 4,
+      offset: (page - 1) * pageCount,
+      limit: pageCount,
     })
     .then((data) => {
-      // console.log("data");
+      console.log("data", data);
       console.log(data);
-      res.json({ data, page: Math.ceil(count / 4) });
+      res.json({ data, count: Math.ceil(count / pageCount) });
     })
 
     //test
