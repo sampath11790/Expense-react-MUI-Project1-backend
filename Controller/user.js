@@ -1,7 +1,6 @@
 const User = require("../Module/user");
 const bcrypt = require("bcrypt");
-var secretKey =
-  "4f1feeca525de4cdb064656007da3edac7895a87ff0ea865693300fb8b6e8f9c";
+
 const jwt = require("jsonwebtoken");
 //post userdata
 exports.PostUser = (req, res, next) => {
@@ -60,5 +59,5 @@ exports.login = async (req, res, next) => {
 };
 
 function getToken(id) {
-  return jwt.sign({ userId: id }, secretKey);
+  return jwt.sign({ userId: id }, process.env.JWT_SECRET_KEY);
 }

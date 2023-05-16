@@ -1,8 +1,3 @@
-const API_KEY =
-  "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";
-
-var secretKey =
-  "4f1feeca525de4cdb064656007da3edac7895a87ff0ea865693300fb8b6e8f9c";
 const bcrypt = require("bcrypt");
 const SibApiV3Sdk = require("sib-api-v3-sdk");
 
@@ -41,7 +36,8 @@ exports.getResetpasswordLink = async (req, res, next) => {
 function sendLink(link_id, email) {
   //  SendinBlue API key
 
-  SibApiV3Sdk.ApiClient.instance.authentications["api-key"].apiKey = API_KEY;
+  SibApiV3Sdk.ApiClient.instance.authentications["api-key"].apiKey =
+    process.env.SENDINBLUR_API_KEY;
   // Create an instance of the SendinBlue client
 
   const transEmailApi = new SibApiV3Sdk.TransactionalEmailsApi();

@@ -1,5 +1,3 @@
-const key_id = "rzp_test_tdxXyR482296b6";
-const key_secret = "zgk9djINXS3sggvpnakOMel3";
 const Order = require("../Module/orders");
 const Razorpay = require("razorpay");
 const User = require("../Module/user");
@@ -10,8 +8,8 @@ exports.getPremium = (req, res, next) => {
   // console.log("req.user", req.user);
   try {
     const rzp = new Razorpay({
-      key_id: key_id,
-      key_secret: key_secret,
+      key_id: process.env.RAZOERPAY_KEY_ID,
+      key_secret: process.env.RAZOERPAY_KEY_SECRET,
     });
     const amount = 100;
     rzp.orders.create({ amount, currency: "INR" }, (err, order) => {
