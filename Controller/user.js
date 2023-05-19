@@ -5,13 +5,13 @@ const jwt = require("jsonwebtoken");
 //post userdata
 exports.PostUser = (req, res, next) => {
   //   res.send("some text");
-  console.log(req.body);
+  // console.log(req.body);
 
   const saltRounds = 10;
 
   bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
     if (!err) {
-      console.log(err);
+      // console.log(err);
       const obj = {
         name: req.body.name,
 
@@ -20,21 +20,21 @@ exports.PostUser = (req, res, next) => {
       };
       User.create(obj)
         .then((data) => {
-          console.log(data);
-          res.send(req.body);
+          // console.log(data);
+          res.status(200).json({ message: "success" });
         })
         .catch((err) => {
-          res.status(403).send(err);
+          res.status(403).json({ error: "failed" });
         });
     } else {
-      console.log(hash);
+      // console.log(hash);
     }
   });
 };
 
 exports.login = async (req, res, next) => {
   //   res.send("some text");
-  console.log(req.body);
+  // console.log(req.body);
   const obj = {
     email: req.body.email,
     password: req.body.password,

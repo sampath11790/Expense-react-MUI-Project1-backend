@@ -1,5 +1,4 @@
-//import modules
-// const dotenv = require("dotenv");
+const dotenv = require("dotenv").config();
 // dotenv.config({ path: "./config.env" });
 const express = require("express");
 const bodyparser = require("body-parser");
@@ -10,7 +9,15 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const fs = require("fs");
 const path = require("path");
-
+// const appDir = require("./Utli/path");
+const accesslogStream = fs.createWriteStream(
+  path.join(__dirname, "access.log"),
+  {
+    flags: "a",
+  }
+);
+// console.log(accesslogStream);
+app.use(morgan("combined", { stream: accesslogStream }));
 //Module
 const User = require("./Module/user");
 const Expenses = require("./Module/expenses");
@@ -24,20 +31,14 @@ const ExpenseRoute = require("./Route/Expense");
 const PremiumRoute = require("./Route/Premium");
 const PasswordRoute = require("./Route/Password");
 const forgetpassword = require("./Module/forgetpassword");
-const { request } = require("http");
+// const { request } = require("http");
 
 //it will log req url and other information
-const accesslogStream = fs.createReadStream(
-  path.join(__dirname, "access.log"),
-  {
-    flags: "a",
-  }
-);
 
 //middleware
 app.use(cors());
 app.use(helmet());
-app.use(morgan("combined", { stream: accesslogStream }));
+
 // app.use(tokenMiddleware);
 // app.use(bcrypt());
 
@@ -71,7 +72,7 @@ Forgetpassword.belongsTo(User);
 User.hasMany(BucketDate);
 BucketDate.belongsTo(User);
 //server listener
-console.log(process.env.NODE_ENV);
+// console.log(process.env);
 db.sync()
 
   // db.sync({ force: true })

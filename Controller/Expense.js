@@ -34,8 +34,8 @@ exports.getExpenses = async (req, res, next) => {
       limit: pageCount,
     })
     .then((data) => {
-      console.log("data", data);
-      console.log(data);
+      // console.log("data", data);
+      // console.log(data);
       res.json({ data, count: Math.ceil(count / pageCount) });
     })
 
@@ -68,12 +68,12 @@ exports.postProduct = async (req, res, next) => {
     .then(async (data) => {
       await t.commit();
       // console.log(data);
-      res.json({ messsage: "success" });
+      res.status(200).json({ messsage: "success" });
     })
     .catch(async (err) => {
       await t.rollback();
       // console.log(err);
-      res.json({ error: "faild", messsage: err });
+      res.status(401).json({ error: "faild" });
     });
 
   // console.log(req);
@@ -109,7 +109,7 @@ exports.deleteProduct = async (req, res, next) => {
     })
     .catch(async (err) => {
       await t.rollback();
-      res.json({ error: "faild", messsage: err });
+      res.json({ error: "faild" });
     });
 
   // console.log(req);
@@ -126,6 +126,6 @@ exports.getDownloadExpenses = async (req, res, next) => {
 
     res.status(200).json({ message: "successfull", bucket });
   } catch (err) {
-    res.status(400).json({ error: "failed", data: err });
+    res.status(400).json({ error: "failed" });
   }
 };

@@ -7,7 +7,7 @@ const { v4: uuidv4 } = require("uuid");
 exports.getResetpasswordLink = async (req, res, next) => {
   try {
     const email = req.body.email;
-    console.log("email", email);
+    // console.log("email", email);
     const user = await User.findOne({ where: { email: email } });
     const ForgetObj = {
       id: uuidv4(),
@@ -18,17 +18,17 @@ exports.getResetpasswordLink = async (req, res, next) => {
     const forgetPassord_response = await Forgetpassword.create(ForgetObj);
 
     const sendRestlink = await sendLink(ForgetObj.id, email);
-    console.log(sendRestlink);
+    // console.log(sendRestlink);
     Promise.all([forgetPassord_response, sendRestlink])
       .then((data) => {
         res.status(200).json({ message: "success", data: sendRestlink });
       })
       .catch((err) => {
-        res.status(400).json({ error: "failed", message: err });
+        res.status(400).json({ error: "failed" });
       });
   } catch (err) {
-    console.log(err);
-    res.status(400).json({ error: "failed", message: err });
+    // console.log(err);
+    res.status(400).json({ error: "failed" });
   }
 };
 

@@ -1,12 +1,11 @@
 const jwt = require("jsonwebtoken");
 const User = require("../Module/user");
-var secretKey =
-  "4f1feeca525de4cdb064656007da3edac7895a87ff0ea865693300fb8b6e8f9c";
+
 const tokenValidation = async (req, res, next) => {
   try {
     const token = req.header("Authorization");
 
-    const response = await jwt.verify(token, secretKey);
+    const response = await jwt.verify(token, process.env.JWT_SECRET_KEY);
 
     if (response.userId) {
       User.findByPk(response.userId)
